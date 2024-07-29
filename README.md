@@ -1,4 +1,7 @@
-# Narya: A proof assistant for higher-dimensional type theory
+
+This is my fork of Narya where I try to take it apart, understand how it works, and comment on it / explain it to myself.
+
+ Narya: A proof assistant for higher-dimensional type theory
 
 Narya is eventually intended to be a proof assistant implementing Multi-Modal, Multi-Directional, Higher/Parametric/Displayed Observational Type Theory, but a formal type theory combining all those adjectives has not yet been specified.  At the moment, Narya implements a normalization-by-evaluation algorithm and typechecker for an observational-style theory with Id/Bridge types satisfying parametricity, of variable arity and internality.  There is a parser with user-definable mixfix notations, and user-definable record types, inductive datatypes and type families, and coinductive codatatypes, with functions definable by matching and comatching case trees, import and export and separate compilation, the ability to leave holes and solve them later, and a ProofGeneral interaction mode.
 
