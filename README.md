@@ -1,28 +1,133 @@
 
 This is my fork of Narya where I try to take it apart, understand how it works, and comment on it / explain it to myself.
 
- Narya: A proof assistant for higher-dimensional type theory
+ Narya: 
 
-Narya is eventually intended to be a proof assistant implementing Multi-Modal, Multi-Directional, Higher/Parametric/Displayed Observational Type Theory, but a formal type theory combining all those adjectives has not yet been specified.  At the moment, Narya implements a normalization-by-evaluation algorithm and typechecker for an observational-style theory with Id/Bridge types satisfying parametricity, of variable arity and internality.  There is a parser with user-definable mixfix notations, and user-definable record types, inductive datatypes and type families, and coinductive codatatypes, with functions definable by matching and comatching case trees, import and export and separate compilation, the ability to leave holes and solve them later, and a ProofGeneral interaction mode.
+This is presumably a lord of the rings reference: https://en.wikipedia.org/wiki/Rings_of_Power#The_Three
+ 
+ 
+ 
+ A proof assistant for higher-dimensional type theory
 
-Narya is very much a work in progress.  Expect breaking changes, including even in fundamental aspects of the syntax.  (I try to make breaking changes as GitHub pull requests, so if you watch the repository you should at least get notified of them.)  But on the other side of the coin, feedback on anything and everything is welcome.  In particular, please report all crashes, bugs, unexpected errors, and other unexpected, surprising, or unintuitive behavior, either in GitHub issues or by direct email.
+ I will be reading this: https://ncatlab.org/nlab/show/type+theory
+ to under what a formal definition of a "type theory" could be. For example, just for curiosity's sake what if i tried to define a type theory in set theory? 
+
+
+- Narya implements a normalization-by-evaluation algorithm and typechecker for an observational-style theory with Id/Bridge types satisfying parametricity, of variable arity and internality.
+
+reference on normalization-by-evaluation: https://en.wikipedia.org/wiki/Normalisation_by_evaluation
+reference on observational type theory: https://ncatlab.org/nlab/show/observational+type+theory
+
+from an AI:
+
+This is quite a technical statement from type theory and homotopy type theory. Let's break it down:
+
+1. Observational-style theory:
+This refers to a type theory where equality is defined in terms of observable behavior rather than by definitional equality. It's related to the concept of observational equivalence in programming language theory.
+
+2. Id/Bridge types:
+- Id types (Identity types): These are fundamental in homotopy type theory. For any type A and elements a, b : A, there is a type Id_A(a, b) of identifications or paths from a to b.
+- Bridge types: These are a generalization of identity types introduced in newer variants of cubical type theory. They allow for a more flexible treatment of equality and can express certain forms of parametricity.
+
+3. Parametricity:
+This is a property of polymorphic functions that ensures they behave uniformly for all types. It's crucial for reasoning about abstract types and for deriving "free theorems" about polymorphic functions.
+
+4. Variable arity:
+This suggests that the theory can handle types and operations with a varying number of arguments or parameters.
+
+5. Internality:
+This likely refers to the ability to express and reason about certain meta-theoretical concepts within the theory itself.
+
+The purpose of Id/Bridge types:
+
+1. Identity types (Id):
+   - Used to represent equality or paths between elements of a type
+   - Essential for formalizing homotopy-theoretic concepts in type theory
+   - Allow for higher-dimensional structure in types (e.g., higher homotopies)
+
+2. Bridge types:
+   - Generalize identity types to handle more complex notions of equality
+   - Provide a way to express parametricity internally in the type theory
+   - Allow for more flexible reasoning about equality and abstraction
+
+Both Id and Bridge types are crucial for:
+- Formalizing mathematical concepts in a computer-verifiable way
+- Reasoning about equality and equivalence in a more refined manner
+- Connecting type theory with homotopy theory and higher category theory
+- Expressing and proving properties related to parametricity
+
+In the context you provided, the statement is describing a sophisticated type theory that combines several advanced concepts to create a powerful framework for formal reasoning. This kind of theory would be useful for formalizing complex mathematical structures and for developing highly expressive and verifiable programming languages.
+
 
 
 ## Top level interface
 
 ### Compilation
 
-Narya requires OCaml version 5.2.0 (or later) and various libraries.  After installing any version of OCaml and its package manager Opam, you can install Narya with its dependencies as follows:
+Narya requires OCaml version 5.2.0 (or later) and various libraries. 
+
+
+
+1. imnstallking ocaml
+
+install ocaml: 
+
+https://ocaml.org/install#linux_mac_bsd
+
+
+
 
 ```
 opam switch create 5.2.0
+
+This creates a new OCaml environment with the specified version.
+
+
+
 opam install zarith uuseg bwd algaeff asai yuujinchou react lwt lambda-term fmlib fileutils
+
+packages
+
+
+
+assuming you cloned this git repo, then cd into the local directory
 
 cd ../narya
 dune build
 dune runtest
 dune install
 ```
+
+
+from an AI:
+
+Dune is indeed the standard build system for OCaml projects, and it's widely adopted in the OCaml community. It's not a special library, but rather a general-purpose build tool specifically designed for OCaml.
+
+Here's some context on Dune:
+
+1. Standard tool: Dune (formerly known as jbuilder) is the de facto standard build system for OCaml projects. It's recommended by the official OCaml documentation and widely used in the community.
+
+2. Purpose: Dune automates the compilation of OCaml projects, handling dependencies, linking, and producing executables or libraries.
+
+3. Ease of use: It's designed to require minimal configuration for standard projects while allowing for complex customization when needed.
+
+4. Commands:
+   - `dune build`: Compiles your project
+   - `dune runtest`: Runs the project's tests
+   - `dune install`: Installs the built artifacts
+
+5. Configuration: Projects typically have a `dune-project` file at the root and `dune` files in subdirectories to specify build instructions.
+
+6. Integration: Dune integrates well with OPAM (OCaml's package manager) and other OCaml tools.
+
+7. Cross-compilation: It supports cross-compilation and is used for building OCaml projects for various platforms.
+
+8. Performance: Dune is known for its speed, especially for incremental builds.
+
+While there are other build systems available for OCaml (like ocamlbuild or make-based systems), Dune has become the most popular and recommended choice for most OCaml projects due to its ease of use, performance, and wide adoption in the community.
+
+
+
 
 This will make the executable `narya` available in a directory such as `~/.opam/5.2.0/bin`, which should be in your `PATH`.  Alternatively, instead of `dune install` you can also run the executable directly from the `narya/` directory with `dune exec narya`.  In this case, to pass flags to the executable, put them after a `--`.  For instance, `dune exec narya -- test.ny -i` loads the file `test.ny` and then enters interactive mode.
 
